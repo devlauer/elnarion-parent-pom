@@ -489,8 +489,8 @@
 	</build>
 
 	<scm>
-		<connection>scm:git:ssh://git@github.com/devlauer/elnarion-parent-pom.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/devlauer/elnarion-parent-pom.git</developerConnection>
+		<connection>scm:git:ssh://git@github.com:devlauer/elnarion-parent-pom.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:devlauer/elnarion-parent-pom.git</developerConnection>
 		<url>https://github.com/devlauer/elnarion-parent-pom/tree/master</url>
 		<tag>HEAD</tag>
 	</scm>
