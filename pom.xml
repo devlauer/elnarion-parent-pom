@@ -551,7 +551,7 @@
 				<plugin>
 					<groupId>de.elnarion.maven</groupId>
 					<artifactId>docconverter-maven-plugin</artifactId>
-					<version>0.10.0</version>
+					<version>1.0.1</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
