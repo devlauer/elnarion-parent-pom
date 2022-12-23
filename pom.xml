@@ -23,7 +23,7 @@
 		<docconverter.version>0.10.0</docconverter.version>
 		<uniknow.exportlet.version>0.1.14</uniknow.exportlet.version>
 		<asciidoctorj.diagram.version>1.5.4.1</asciidoctorj.diagram.version>
-		<elnarion.asciidoc.extension.version>0.9.2</elnarion.asciidoc.extension.version>
+		<elnarion.asciidoc.extension.version>1.0.0</elnarion.asciidoc.extension.version>
 
 		<asciidoc.src.directory>${basedir}/src/main/asciidoc</asciidoc.src.directory>
 		<asciidoc.temp.directory>${basedir}/target/docs/asciidoc</asciidoc.temp.directory>
