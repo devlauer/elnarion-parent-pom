@@ -10,25 +10,31 @@
 	<url>https://github.com/devlauer/elnarion-parent-pom</url>
 
 	<properties>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>11</java.version>
+		<!-- repositories for maven central upload -->
 		<snapshotRepositoryId>ossrh</snapshotRepositoryId>
 		<snapshotRepository>https://oss.sonatype.org/content/repositories/snapshots</snapshotRepository>
 		<releaseRepositoryId>ossrh</releaseRepositoryId>
 		<releaseRepository>https://oss.sonatype.org/service/local/staging/deploy/maven2/</releaseRepository>
+		<!-- default project encoding and java version-->
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>8</java.version>
+		<!-- asciidoc dependency versions -->
+		<asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>		
 		<asciidoctorj.version>2.5.7</asciidoctorj.version>
-		<asciidoclet.version>1.5.6</asciidoclet.version>
+		<asciidoctorj.diagram.version>2.2.3</asciidoctorj.diagram.version>		
+		<asciidoclet.version>2.0.2</asciidoclet.version>
 		<jruby.version>9.4.0.0</jruby.version>
 		<docconverter.version>1.0.1</docconverter.version>
 		<uniknow.exportlet.version>0.1.14</uniknow.exportlet.version>
-		<asciidoctorj.diagram.version>1.5.4.1</asciidoctorj.diagram.version>
-		<elnarion.asciidoc.extension.version>1.0.0</elnarion.asciidoc.extension.version>
-
+		<asciidoc-extensions.version>1.0.0</asciidoc-extensions.version>
+		<!-- asciidoc path variables -->
 		<asciidoc.src.directory>${basedir}/src/main/asciidoc</asciidoc.src.directory>
 		<asciidoc.temp.directory>${basedir}/target/docs/asciidoc</asciidoc.temp.directory>
 		<asciidoc.package.directory>${basedir}/target/adoc-package</asciidoc.package.directory>
 		<asciidoc.target.directory>${basedir}/target/docs/</asciidoc.target.directory>
+		<!-- url to render plantuml to an image-->
+		<remoteplantuml>http://www.plantuml.com/plantuml/png/</remoteplantuml>
 	</properties>
 
 	<issueManagement>
@@ -65,7 +71,7 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
-							<additionalparam>-Xdoclint:none</additionalparam>
+							<doclint>none</doclint>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -174,34 +180,47 @@
 					<plugin>
 						<groupId>org.asciidoctor</groupId>
 						<artifactId>asciidoctor-maven-plugin</artifactId>
+						<version>${asciidoctor.maven.plugin.version}</version>
 						<dependencies>
+							<!-- Comment this section to use the default jruby artifact provided 
+								by the plugin -->
 							<dependency>
 								<groupId>org.jruby</groupId>
-								<artifactId>jruby-complete</artifactId>
+								<artifactId>jruby</artifactId>
 								<version>${jruby.version}</version>
 							</dependency>
+							<!-- Comment this section to use the default AsciidoctorJ artifact 
+								provided by the plugin -->
 							<dependency>
 								<groupId>org.asciidoctor</groupId>
 								<artifactId>asciidoctorj</artifactId>
 								<version>${asciidoctorj.version}</version>
 							</dependency>
 							<dependency>
+								<groupId>org.asciidoctor</groupId>
+								<artifactId>asciidoctorj-diagram</artifactId>
+								<version>${asciidoctorj.diagram.version}</version>
+							</dependency>
+							<dependency>
 								<groupId>de.elnarion.asciidoc</groupId>
 								<artifactId>asciidoc-extension-multiinclude</artifactId>
-								<version>${elnarion.asciidoc.extension.version}</version>
+								<version>${asciidoc-extensions.version}</version>
 							</dependency>
 							<dependency>
 								<groupId>de.elnarion.asciidoc</groupId>
 								<artifactId>asciidoc-extension-remoteplantuml</artifactId>
-								<version>${elnarion.asciidoc.extension.version}</version>
+								<version>${asciidoc-extensions.version}</version>
 							</dependency>
 						</dependencies>
 						<configuration>
-							<sourceDirectory>${asciidoc.src.directory}</sourceDirectory>
-							<outputDirectory>${asciidoc.temp.directory}</outputDirectory>
+							<sourceDirectory>src/main/asciidoc</sourceDirectory>
+							<outputDirectory>target/docs/asciidoc</outputDirectory>
 							<requires>
-								<require>elnarion/multiinclude-processor</require>
+								<require>asciidoctor-diagram</require>
 							</requires>
+							<attributes>
+								<remote_plantuml_url>${remoteplantuml}</remote_plantuml_url>
+							</attributes>
 						</configuration>
 						<executions>
 							<execution>
@@ -212,8 +231,8 @@
 								</goals>
 								<configuration>
 									<backend>xhtml5</backend>
-									<sourceHighlighter>coderay</sourceHighlighter>
 									<attributes>
+										<source-highlighter>coderay</source-highlighter>
 										<sectnums>true</sectnums>
 										<linkcss>false</linkcss>
 										<imagesdir>./images</imagesdir>
@@ -231,6 +250,7 @@
 					<plugin>
 						<artifactId>docconverter-maven-plugin</artifactId>
 						<groupId>de.elnarion.maven</groupId>
+						<version>${docconverter.version}</version>
 						<executions>
 							<execution>
 								<id>html2pdf</id>
@@ -271,6 +291,7 @@
 					<plugin>
 						<artifactId>docconverter-maven-plugin</artifactId>
 						<groupId>de.elnarion.maven</groupId>
+						<version>${docconverter.version}</version>
 						<executions>
 							<execution>
 								<id>adoc2adoc</id>
@@ -301,7 +322,7 @@
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-jar-plugin</artifactId>
+						<artifactId>maven-jar-plugin</artifactId>					
 						<executions>
 							<execution>
 								<id>asciidoc-jar</id>
@@ -361,50 +382,61 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.4.1</version>
+						<configuration>
+							<source>1.8</source>
+							<doclet>org.asciidoctor.Asciidoclet</doclet>
+							<docletArtifact>
+								<groupId>de.elnarion.asciidoc</groupId>
+								<artifactId>asciidoclet</artifactId>
+								<version>${asciidoclet.version}</version>
+							</docletArtifact>
+							<additionalDependencies>
+								<dependency>
+									<groupId>de.elnarion.asciidoc</groupId>
+									<artifactId>asciidoc-extension-multiinclude</artifactId>
+									<version>${asciidoc-extensions.version}</version>
+								</dependency>
+								<dependency>
+									<groupId>de.elnarion.asciidoc</groupId>
+									<artifactId>asciidoc-extension-remoteplantuml</artifactId>
+									<version>${asciidoc-extensions.version}</version>
+								</dependency>
+							</additionalDependencies>
+							<additionalOptions>
+								<additionalOption>--base-dir ${project.basedir}</additionalOption>
+								<additionalOption>--attribute "project_name=${project.name}"</additionalOption>
+								<additionalOption>--attribute "project_version=${project.version}"</additionalOption>
+								<additionalOption>--attribute "project_desc=${project.description}"</additionalOption>
+								<additionalOption>--attribute "remote_plantuml_url=${remoteplantuml}"</additionalOption>
+							</additionalOptions>
+							<overview>src/main/java/overview.adoc</overview> 
+						</configuration>
+						<!-- Exports javadocs containing AsciiDoc to HTML -->
 						<executions>
-							<!-- Exports javadocs containing AsciiDoc to HTML -->
-							<execution>
-								<id>html</id>
-								<phase>package</phase>
-								<goals>
-									<goal>javadoc</goal>
-								</goals>
-								<configuration>
-									<source>1.7</source>
-									<doclet>org.asciidoctor.Asciidoclet</doclet>
-									<docletArtifact>
-										<groupId>org.asciidoctor</groupId>
-										<artifactId>asciidoclet</artifactId>
-										<version>${asciidoclet.version}</version>
-									</docletArtifact>
-									<overview>${project.build.sourceDirectory}/overview.adoc</overview>
-									<additionalparam>
-										--base-dir ${project.basedir}
-										--attribute
-										"name=${project.name}"
-										--attribute "version=${project.version}"
-										--attribute
-										"title-link=https://www.github.com/devlauer/[${project.name}]"
-									</additionalparam>
-								</configuration>
-							</execution>
 							<!-- Exports javadocs containing AsciiDoc to AsciiDoc files -->
 							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+							<execution>
 								<id>asciidoc</id>
-								<phase>package</phase>
+								<phase>process-test-classes</phase>
 								<goals>
 									<goal>javadoc</goal>
 								</goals>
-								<configuration>
+								<configuration combine.self="override">
 									<doclet>org.uniknow.asciidoc.ExportDoclet</doclet>
 									<docletArtifact>
 										<groupId>org.uniknow.asciidoc</groupId>
 										<artifactId>exportdoclet</artifactId>
-										<version>${uniknow.exportlet.version}</version>
+										<version>0.1.14</version>
 									</docletArtifact>
 									<useStandardDocletOptions>true</useStandardDocletOptions>
 									<destDir>javadoc</destDir>
-									<reportOutputDirectory>${asciidoc.package.directory}</reportOutputDirectory>
+									<reportOutputDirectory>${basedir}/target/adoc</reportOutputDirectory>
 								</configuration>
 							</execution>
 						</executions>
@@ -546,12 +578,12 @@
 				<plugin>
 					<groupId>org.asciidoctor</groupId>
 					<artifactId>asciidoctor-maven-plugin</artifactId>
-					<version>2.2.2</version>
+					<version>${asciidoctor.maven.plugin.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>de.elnarion.maven</groupId>
 					<artifactId>docconverter-maven-plugin</artifactId>
-					<version>1.0.1</version>
+					<version>${docconverter.version}</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
