@@ -6,5 +6,6 @@
 	"major": {
 		"dependencyDashboardApproval": true
 	},
-	"rollbackPrs": true
+	"rollbackPrs": true,
+	"dependencyDashboardAutoclose":true
 }
