@@ -22,7 +22,7 @@
 		<asciidoctorj.version>2.5.10</asciidoctorj.version>
 		<asciidoctorj.diagram.version>2.2.13</asciidoctorj.diagram.version>
 		<asciidoclet.version>2.0.4</asciidoclet.version>
-		<jruby.version>9.4.3.0</jruby.version>
+		<jruby.version>9.4.4.0</jruby.version>
 		<docconverter.version>1.0.1</docconverter.version>
 		<uniknow.exportlet.version>0.1.14</uniknow.exportlet.version>
 		<asciidoc-extensions.version>1.0.2</asciidoc-extensions.version>
